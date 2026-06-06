@@ -1,17 +1,28 @@
 import { useState } from 'react'
 import FormularioCita, { type Cita } from './components/FormularioCita'
 import ListaCitas from './components/ListaCitas'
+import Mensajes, { type Mensaje } from './components/Mensajes'
 import './App.css'
 
-type Vista = 'inicio' | 'formulario' | 'lista'
+type Vista = 'inicio' | 'formulario' | 'lista' | 'mensajes'
 
 function App() {
   const [vista, setVista] = useState<Vista>('inicio')
   const [citas, setCitas] = useState<Cita[]>([])
+  const [mensajes, setMensajes] = useState<Mensaje[]>([])
 
   const agregarCita = (datos: Omit<Cita, 'id'>) => {
     const nueva: Cita = { ...datos, id: Date.now() }
     setCitas(prev => [...prev, nueva])
+
+    const ahora = new Date()
+    const timestamp = ahora.toLocaleDateString('es-CO') + ' ' + ahora.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })
+    const msg: Mensaje = {
+      id: Date.now(),
+      texto: `Cita registrada exitosamente para ${datos.nombrePaciente} — ${datos.especialidad} en Sede ${datos.sede} el ${datos.fechaCita} de ${datos.franjaHoraria}.`,
+      timestamp,
+    }
+    setMensajes(prev => [msg, ...prev])
   }
 
   return (
@@ -47,6 +58,12 @@ function App() {
               >
                 Ver Citas
               </button>
+              <button
+                className="btn-secondary"
+                onClick={() => setVista('mensajes')}
+              >
+                Mensajes {mensajes.length > 0 && <span className="badge">{mensajes.length}</span>}
+              </button>
             </div>
           </section>
         )}
@@ -78,6 +95,21 @@ function App() {
               </button>
             </div>
             <ListaCitas citas={citas} />
+          </section>
+        )}
+
+        {vista === 'mensajes' && (
+          <section className="form-section">
+            <div className="form-section-header">
+              <h2>Mensajes</h2>
+              <button
+                className="btn-back"
+                onClick={() => setVista('inicio')}
+              >
+                ← Volver al inicio
+              </button>
+            </div>
+            <Mensajes mensajes={mensajes} />
           </section>
         )}
       </main>

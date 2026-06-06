@@ -302,6 +302,71 @@
   background: var(--accent-bg);
 }
 
+/* ── Badge de notificaciones ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 1px 7px;
+  margin-left: 6px;
+  line-height: 1.6;
+}
+
+/* ── Lista de mensajes ── */
+.mensajes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mensajes-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mensaje-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f0fff4;
+  border: 1px solid #9ae6b4;
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.mensaje-icono {
+  font-size: 16px;
+  color: #276749;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.mensaje-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mensaje-texto {
+  font-size: 14px;
+  color: #276749;
+  margin: 0;
+}
+
+.mensaje-hora {
+  font-size: 12px;
+  color: #48836a;
+}
+
 /* ── Footer ── */
 .site-footer {
   text-align: center;
