@@ -79,6 +79,21 @@
 }
 
 /* ── Vista lista de citas ── */
+.filtros-citas {
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filtros-citas .btn-back {
+  align-self: flex-start;
+}
+
 .lista-citas-count {
   color: var(--text);
   font-size: 14px;
