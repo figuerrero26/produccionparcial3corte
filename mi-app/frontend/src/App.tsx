@@ -1,121 +1,97 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import FormularioCita, { type Cita } from './components/FormularioCita'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [mostrarFormulario, setMostrarFormulario] = useState(false)
+  const [citas, setCitas] = useState<Cita[]>([])
+
+  const agregarCita = (datos: Omit<Cita, 'id'>) => {
+    const nueva: Cita = { ...datos, id: Date.now() }
+    setCitas(prev => [...prev, nueva])
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="app-wrapper">
+      <header className="site-header">
+        <div className="header-inner">
+          <div className="brand">
+            <span className="brand-cross">+</span>
+            <span className="brand-name">SaludViva</span>
+          </div>
+          <p className="brand-slogan">Portal de servicios médicos en línea</p>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
+      <main className="main-content">
+        {!mostrarFormulario ? (
+          <section className="hero-section">
+            <h1>Agenda tu cita médica</h1>
+            <p className="hero-desc">
+              Reserva con nuestros especialistas de forma rápida y segura.<br />
+              Sin filas, desde cualquier lugar.
+            </p>
+            <button
+              className="btn-primary"
+              onClick={() => setMostrarFormulario(true)}
+            >
+              Agendar Cita
+            </button>
+          </section>
+        ) : (
+          <section className="form-section">
+            <div className="form-section-header">
+              <h2>Agendamiento de cita médica</h2>
+              <button
+                className="btn-back"
+                onClick={() => setMostrarFormulario(false)}
+              >
+                ← Volver al inicio
+              </button>
+            </div>
+            <FormularioCita onAgregarCita={agregarCita} />
+          </section>
+        )}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {citas.length > 0 && (
+          <section className="citas-section">
+            <h3>Citas registradas en esta sesión ({citas.length})</h3>
+            <div className="table-wrapper">
+              <table className="citas-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Paciente</th>
+                    <th>Documento</th>
+                    <th>Especialidad</th>
+                    <th>Sede</th>
+                    <th>Fecha</th>
+                    <th>Franja</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {citas.map((cita, index) => (
+                    <tr key={cita.id}>
+                      <td>{index + 1}</td>
+                      <td>{cita.nombrePaciente}</td>
+                      <td>{cita.tipoDocumento} {cita.numeroDocumento}</td>
+                      <td>{cita.especialidad}</td>
+                      <td>{cita.sede}</td>
+                      <td>{cita.fechaCita}</td>
+                      <td>{cita.franjaHoraria}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+      </main>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <footer className="site-footer">
+        <p>SaludViva &copy; {new Date().getFullYear()} — Todos los derechos reservados</p>
+      </footer>
+    </div>
   )
 }
 
