@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import FormularioCita, { type Cita } from './components/FormularioCita'
+import ListaCitas from './components/ListaCitas'
 import './App.css'
 
+type Vista = 'inicio' | 'formulario' | 'lista'
+
 function App() {
-  const [mostrarFormulario, setMostrarFormulario] = useState(false)
+  const [vista, setVista] = useState<Vista>('inicio')
   const [citas, setCitas] = useState<Cita[]>([])
 
   const agregarCita = (datos: Omit<Cita, 'id'>) => {
@@ -24,27 +27,37 @@ function App() {
       </header>
 
       <main className="main-content">
-        {!mostrarFormulario ? (
+        {vista === 'inicio' && (
           <section className="hero-section">
             <h1>Agenda tu cita médica</h1>
             <p className="hero-desc">
               Reserva con nuestros especialistas de forma rápida y segura.<br />
               Sin filas, desde cualquier lugar.
             </p>
-            <button
-              className="btn-primary"
-              onClick={() => setMostrarFormulario(true)}
-            >
-              Agendar Cita
-            </button>
+            <div className="hero-actions">
+              <button
+                className="btn-primary"
+                onClick={() => setVista('formulario')}
+              >
+                Agendar Cita
+              </button>
+              <button
+                className="btn-secondary"
+                onClick={() => setVista('lista')}
+              >
+                Ver Citas
+              </button>
+            </div>
           </section>
-        ) : (
+        )}
+
+        {vista === 'formulario' && (
           <section className="form-section">
             <div className="form-section-header">
               <h2>Agendamiento de cita médica</h2>
               <button
                 className="btn-back"
-                onClick={() => setMostrarFormulario(false)}
+                onClick={() => setVista('inicio')}
               >
                 ← Volver al inicio
               </button>
@@ -53,37 +66,18 @@ function App() {
           </section>
         )}
 
-        {citas.length > 0 && (
-          <section className="citas-section">
-            <h3>Citas registradas en esta sesión ({citas.length})</h3>
-            <div className="table-wrapper">
-              <table className="citas-table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Paciente</th>
-                    <th>Documento</th>
-                    <th>Especialidad</th>
-                    <th>Sede</th>
-                    <th>Fecha</th>
-                    <th>Franja</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {citas.map((cita, index) => (
-                    <tr key={cita.id}>
-                      <td>{index + 1}</td>
-                      <td>{cita.nombrePaciente}</td>
-                      <td>{cita.tipoDocumento} {cita.numeroDocumento}</td>
-                      <td>{cita.especialidad}</td>
-                      <td>{cita.sede}</td>
-                      <td>{cita.fechaCita}</td>
-                      <td>{cita.franjaHoraria}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {vista === 'lista' && (
+          <section className="form-section">
+            <div className="form-section-header">
+              <h2>Mis citas registradas</h2>
+              <button
+                className="btn-back"
+                onClick={() => setVista('inicio')}
+              >
+                ← Volver al inicio
+              </button>
             </div>
+            <ListaCitas citas={citas} />
           </section>
         )}
       </main>

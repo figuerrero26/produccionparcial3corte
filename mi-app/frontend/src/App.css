@@ -71,6 +71,40 @@
   line-height: 1.7;
 }
 
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Vista lista de citas ── */
+.lista-citas-count {
+  color: var(--text);
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+.lista-citas-count strong {
+  color: var(--accent);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text);
+}
+
+.empty-state p {
+  margin: 0 0 8px;
+}
+
+.empty-hint {
+  font-size: 14px;
+  color: var(--text);
+  opacity: 0.8;
+}
+
 /* ── Sección del formulario ── */
 .form-section {
   background: var(--bg);
