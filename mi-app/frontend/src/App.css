@@ -13,8 +13,14 @@
 }
 
 .header-inner {
-  max-width: 860px;
+  max-width: 1200px;
   margin: 0 auto;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .brand {
@@ -46,52 +52,47 @@
 /* ── Main ── */
 .main-content {
   flex: 1;
-  max-width: 860px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 32px 20px;
   box-sizing: border-box;
 }
 
-/* ── Hero / Vista inicial ── */
-.hero-section {
-  text-align: center;
-  padding: 60px 20px;
+/* ── Grid inicio (formulario + lista) ── */
+.inicio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
 }
 
-.hero-section h1 {
-  font-size: 2rem;
-  color: var(--text-h);
-  margin: 0 0 16px;
+@media (max-width: 860px) {
+  .inicio-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.hero-desc {
-  color: var(--text);
-  margin-bottom: 32px;
-  line-height: 1.7;
-}
-
-.hero-actions {
+/* ── Botón mensajes en header ── */
+.btn-mensajes {
+  background: #fcd34d;
+  color: #3b1f6e;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--sans);
   display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+  white-space: nowrap;
 }
 
-/* ── Vista lista de citas ── */
-.filtros-citas {
-  background: var(--accent-bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.filtros-citas .btn-back {
-  align-self: flex-start;
+.btn-mensajes:hover {
+  background: #fbbf24;
 }
 
 .lista-citas-count {
@@ -276,18 +277,6 @@
   padding: 10px 14px;
   border-radius: 5px;
   font-size: 14px;
-}
-
-/* ── Tabla de citas ── */
-.citas-section {
-  margin-top: 36px;
-}
-
-.citas-section h3 {
-  font-size: 1rem;
-  color: var(--text-h);
-  margin: 0 0 14px;
-  font-weight: 500;
 }
 
 .table-wrapper {
